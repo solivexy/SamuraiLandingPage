@@ -1,0 +1,57 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            # Ensure Node, npm, bun, and PM2 are in PATH
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            export PATH=$PATH:/usr/local/bin:~/.nvm/versions/node/$(ls ~/.nvm/versions/node 2>/dev/null | tail -n 1)/bin:~/.bun/bin
+
+            TARGET_DIR="${{ secrets.VPS_TARGET_DIR || '/var/www/ronin.solc.tech' }}"
+            
+            echo "Navigating to application directory: $TARGET_DIR"
+            cd "$TARGET_DIR"
+
+            echo "Pulling latest code from main branch..."
+            git pull origin main
+
+            echo "Installing dependencies..."
+            if command -v bun &> /dev/null; then
+              bun install
+              echo "Building Next.js application..."
+              bun run build
+            else
+              npm install
+              echo "Building Next.js application..."
+              npm run build
+            fi
+
+            echo "Restarting application on port 3004 via PM2..."
+            if pm2 describe ronin-app > /dev/null 2>&1; then
+              pm2 restart ronin-app
+            else
+              pm2 start npm --name "ronin-app" -- start -- -p 3004
+            fi
+            
+            pm2 save
+            echo "Deployment completed successfully!"
