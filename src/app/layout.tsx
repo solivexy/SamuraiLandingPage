@@ -17,6 +17,11 @@ const oswald = Oswald({
 export const metadata: Metadata = {
   title: "SamuraiShidown",
   description: "Experience the ultimate samurai combat game.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
