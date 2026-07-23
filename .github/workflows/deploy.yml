@@ -50,7 +50,7 @@ jobs:
             if pm2 describe ronin-app > /dev/null 2>&1; then
               pm2 restart ronin-app
             else
-              pm2 start npm --name "ronin-app" -- start -- -p 3004
+              pm2 start npm --name "ronin-app" --cwd "$TARGET_DIR" -- start -- -p 3004
             fi
             
             pm2 save
