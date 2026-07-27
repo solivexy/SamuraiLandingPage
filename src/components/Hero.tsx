@@ -112,7 +112,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center gap-6"
         >
           <MagneticButton
-            href="https://github.com/Ymr76/SamuraiShidown/archive/refs/heads/main.zip"
+            href="https://github.com/Ymr76/SamuraiShidown/releases/download/Release/SamuraiShidown.zip"
             className="group relative inline-flex h-14 items-center justify-center bg-brand-primary px-8 font-display font-bold text-white transition-all hover:bg-brand-secondary active:scale-95 slash-hover w-full sm:w-auto uppercase tracking-[0.2em] text-sm"
           >
             <span className="relative z-10 flex items-center gap-2">

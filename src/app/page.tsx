@@ -41,7 +41,7 @@ export default function Home() {
             Download now and join the battle. Master the art of the sword, or perish trying.
           </p>
           <MagneticButton
-            href="https://github.com/Ymr76/SamuraiShidown/archive/refs/heads/main.zip"
+            href="https://github.com/Ymr76/SamuraiShidown/releases/download/Release/SamuraiShidown.zip"
             className="group relative inline-flex h-16 items-center justify-center bg-brand-primary px-12 font-display font-bold text-white transition-all hover:bg-brand-secondary active:scale-95 slash-hover uppercase tracking-[0.2em] text-lg ring-4 ring-brand-primary/20 hover:ring-brand-primary/40"
           >
             <span className="relative z-10 flex items-center gap-3">
